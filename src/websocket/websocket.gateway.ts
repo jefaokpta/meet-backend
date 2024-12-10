@@ -20,7 +20,7 @@ export class WebsocketGateway implements OnGatewayInit, OnGatewayConnection, OnG
   }
 
   handleDisconnect(client: Socket) {
-    this.logger.log(`Cliente desconectado - ${client.id}`);
+    this.logger.log(`Cliente desconectado  - ${client.id}`);
   }
 
   handleConnection(client: Socket) {

@@ -7,7 +7,11 @@ import { Server, Socket } from 'socket.io';
 import { ParticipantDto } from './dto/participant.dto';
 import { Logger } from '@nestjs/common';
 
-@WebSocketGateway()
+@WebSocketGateway({
+  cors: {
+    origin: '*'
+  },
+})
 export class WebsocketGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
 
   @WebSocketServer()

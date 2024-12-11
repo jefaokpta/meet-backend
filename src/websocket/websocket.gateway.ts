@@ -1,7 +1,7 @@
 import {
   WebSocketGateway,
   WebSocketServer,
-  OnGatewayDisconnect, OnGatewayConnection, OnGatewayInit,
+  OnGatewayDisconnect, OnGatewayConnection, OnGatewayInit, SubscribeMessage,
 } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ParticipantDto } from './dto/participant.dto';
@@ -21,6 +21,12 @@ export class WebsocketGateway implements OnGatewayInit, OnGatewayConnection, OnG
 
   sendEvent(event: string, data: any) {
     this.server.emit(event, data);
+  }
+
+  @SubscribeMessage('new-participant')
+  handleNewParticipant(client: Socket, participant: ParticipantDto) {
+    this.logger.log(`Novo participante - ${participant.speaker}`);
+    client.broadcast.emit('new-participant', participant);
   }
 
   handleDisconnect(client: Socket) {

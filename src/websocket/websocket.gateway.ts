@@ -36,7 +36,6 @@ export class WebsocketGateway implements OnGatewayInit, OnGatewayConnection, OnG
 
   handleConnection(client: Socket) {
     this.logger.log(`Cliente conectado - ${client.id}`);
-    return client.id;
   }
 
   afterInit() {

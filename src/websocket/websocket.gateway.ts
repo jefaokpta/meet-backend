@@ -26,15 +26,17 @@ export class WebsocketGateway implements OnGatewayInit, OnGatewayConnection, OnG
   @SubscribeMessage('new-participant')
   handleNewParticipant(client: Socket, participant: ParticipantDto) {
     this.logger.log(`Novo participante - ${participant.speaker}`);
-    client.broadcast.emit('new-participant', participant);
+    // client.broadcast.emit('new-participant', participant); // todos menos o que enviou
+    this.sendEvent('new-participant', { ...participant, socketId: client.id });
   }
 
   handleDisconnect(client: Socket) {
-    this.logger.log(`Cliente desconectado  - ${client.id}`);
+    this.sendEvent('participant-left', client.id);
   }
 
   handleConnection(client: Socket) {
     this.logger.log(`Cliente conectado - ${client.id}`);
+    return client.id;
   }
 
   afterInit() {
